@@ -1,0 +1,59 @@
+@page "/department"
+
+@using MySql.Data;
+@using MySql.Data.MySqlClient;
+@using System.Data;
+
+@using Data;
+
+@inject Database DBConnect
+
+<div class="container-fluid">
+    <div class="d-flex flex-row">
+        <table class="table table-striped table-light">
+            <thead>
+                <tr>
+                    <th scope="col">dp_id</th>
+                    <th scope="col">emp_no</th>
+                    <th scope="col">dp_name</th>
+                    <th scope="col">first_name</th>
+                    <th scope="col">last_name</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (DataRow row in dtdepartment.Rows)
+                {
+                    string dp_id = row["dp_id"].ToString();
+                    string emp_no = row["emp_no"].ToString();
+                    string dp_name = row["dp_name"].ToString();
+                    string first_name = row["first_name"].ToString();
+                    string last_name = row["last_name"].ToString();
+
+                    <tr>
+                        <td>@dp_id</td>
+                        <td>@emp_no</td>
+                        <td>@dp_name</td>
+                        <td>@first_name</td>
+                        <td>@last_name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    DataTable dtdepartment = new DataTable();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SomeStartupTask();
+        dtdepartment = DBConnect.GetDepartmentData();
+    }
+
+    Task SomeStartupTask()
+    {
+        return Task.CompletedTask;
+    }
+}

@@ -1,0 +1,64 @@
+@page "/supplier"
+
+@using MySql.Data;
+@using MySql.Data.MySqlClient;
+@using System.Data;
+
+@using Data;
+
+@inject Database DBConnect
+
+<div class="container-fluid">
+    <div class="d-flex flex-row">
+        <table class= "table table-striped table-light">
+            <thead>
+                <tr>
+                    <th scope="col">sup_id</th>
+                    <th scope="col">sub_desc</th>
+                    <th scope="col">sup_add1</th>
+                    <th scope="col">sup_add2</th>
+                    <th scope="col">phone</th>
+                    <th scope="col">sup_name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow row in dtsupplier.Rows)
+                {
+                    string sup_id = row["sup_id"].ToString();
+                    string sup_desc = row["sup_desc"].ToString();
+                    string sup_add1 = row["sup_add1"].ToString();
+                    string sup_add2 = row["sup_add2"].ToString();
+                    string phone = row["phone"].ToString();
+                    string sup_name = row["sup_name"].ToString();
+
+                    <tr>
+                        <th >@sup_id</th>
+                        <th>@sup_desc</th>
+                        <th>@sup_add1</th>
+                        <th>@sup_add2</th>
+                        <th>@phone</th>
+                        <th>@sup_name</th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+@code {
+    DataTable dtsupplier = new DataTable();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SomeStartupTask();
+        dtsupplier = DBConnect.GetSupplierData();
+    }
+    Task SomeStartupTask()
+    {
+        return Task.CompletedTask;
+    }
+}
+
+
+
